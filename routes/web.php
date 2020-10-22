@@ -18,7 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::group(['namespace' => 'App\Http\Controllers\Blog', 'prefix' => 'blog'], function() {
-    Route::resource('posts', 'PostController')->names('blog.posts'); Route::
+    Route::resource('posts', 'PostController')->names('blog.posts');
 });
 Route::resource('rest', 'App\Http\Controllers\RestTestController')->names('restTest');
 //Route::resource('blog', 'App\Http\Controllers\Blog\PostController')
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
