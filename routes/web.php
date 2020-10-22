@@ -17,4 +17,8 @@ use App\Http\Controllers;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['namespace' => 'App\Http\Controllers\Blog', 'prefix' => 'blog'], function() {
+    Route::resource('posts', 'PostController')->names('blog.posts'); Route::
+});
 Route::resource('rest', 'App\Http\Controllers\RestTestController')->names('restTest');
+//Route::resource('blog', 'App\Http\Controllers\Blog\PostController')
