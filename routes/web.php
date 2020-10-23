@@ -13,7 +13,7 @@ use App\Http\Controllers;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
@@ -21,8 +21,17 @@ Route::group(['namespace' => 'App\Http\Controllers\Blog', 'prefix' => 'blog'], f
     Route::resource('posts', 'PostController')->names('blog.posts');
 });
 Route::resource('rest', 'App\Http\Controllers\RestTestController')->names('restTest');
-//Route::resource('blog', 'App\Http\Controllers\Blog\PostController')
-
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+$groupDate =[
+    'namespace' => 'App\Http\Controllers\Blog\Admin',
+    'prefix' => 'admin/blog'
+];
+
+Route::group($groupDate, function () {
+    $methods = ['index', 'edit', 'store', 'update', 'create'];
+    Route::resource('categories', 'Categorycontroller')
+        ->only($methods)
+        ->names('blog.admin.categories');
+});
