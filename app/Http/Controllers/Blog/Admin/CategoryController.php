@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BlogCategory;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
+use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
-class CategoryController extends Controller
+class CategoryController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        dd(__METHOD__);
+        $paginator =BlogCategory::paginate(5);
+        return view('blog.admin.category.index', compact('paginator'));
     }
 
     /**
@@ -47,7 +51,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        dd(__METHOD__);
+        $item = BlogCategory::findOrFail($id);
+        $categoryList = BlogCategory::all();
+
+        return view('blog.admin.category.edit',
+            compact('item', 'categoryList'));
     }
 
     /**
