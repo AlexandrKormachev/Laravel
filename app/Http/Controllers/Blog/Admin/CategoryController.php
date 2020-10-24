@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use function Webmozart\Assert\Tests\StaticAnalysis\email;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
 class CategoryController extends BaseController
@@ -18,7 +19,7 @@ class CategoryController extends BaseController
     public function index()
     {
         $paginator =BlogCategory::paginate(5);
-        return view('blog.admin.category.index', compact('paginator'));
+        return view('blog.admin.categories.index', compact('paginator'));
     }
 
     /**
@@ -54,7 +55,7 @@ class CategoryController extends BaseController
         $item = BlogCategory::findOrFail($id);
         $categoryList = BlogCategory::all();
 
-        return view('blog.admin.category.edit',
+        return view('blog.admin.categories.edit',
             compact('item', 'categoryList'));
     }
 
@@ -67,6 +68,24 @@ class CategoryController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        dd(__METHOD__);
+        $item = BlogCategory::find($id);
+        if (empty($item)) {
+            return back()
+                ->withErrors(['msg' => "Запись id=[{$id}] не найдена"])
+                ->withInput();
+        }
+        $data = $request->all();
+        $result = $item
+            ->fill($data)
+            ->save();
+        if ($result) {
+            return redirect()
+                ->route('blog.admin.categories.edit', $id)
+                ->with(['success' => 'Успешно сохранено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 }

@@ -34,7 +34,7 @@
 
                 <div class="form-group">
                     <label for="updated">Изменено</label>
-                    <input id="updated" type="text" value="{{$item->update_at}}" class="form-group" disabled>
+                    <input id="updated" type="text" value="{{$item->updated_at}}" class="form-group" disabled>
                 </div>
 
                 <div class="form-group">
