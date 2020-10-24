@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+use Alpha\B;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support;
 use function Webmozart\Assert\Tests\StaticAnalysis\email;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
@@ -20,6 +23,7 @@ class CategoryController extends BaseController
     public function index()
     {
         $paginator =BlogCategory::paginate(5);
+
         return view('blog.admin.categories.index', compact('paginator'));
     }
 
@@ -30,7 +34,10 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        dd(__METHOD__);
+        $item = new BlogCategory();
+        $categoryList = BlogCategory::all();
+        return view('blog.admin.categories.edit',
+        compact('item', 'categoryList'));
     }
 
     /**
@@ -39,9 +46,21 @@ class CategoryController extends BaseController
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
-        dd(__METHOD__);
+        $data = $request->input();
+        if (empty($data['slug'])) {
+            $data['slug'] = Support\Str::slug($data['title']);
+        }
+        $item = new BlogCategory($data);
+        $item->save();
+        if ($item instanceof BlogCategory) {
+            return redirect()->route('blog.admin.categories.edit', [$item->id])
+                ->with(['success' => 'успешно сохранено']);
+        } else {
+            return back()->withInput()
+                ->withErrors(['msg' => 'Ошибка сохранения']);
+        }
     }
 
 
@@ -77,6 +96,7 @@ class CategoryController extends BaseController
 //        ];
 //        $validatedData = $this->validate($request, $rules);
 //        dd($validatedData);
+        /** @var BlogCategory $item */
         $item = BlogCategory::find($id);
         if (empty($item)) {
             return back()
@@ -84,9 +104,13 @@ class CategoryController extends BaseController
                 ->withInput();
         }
         $data = $request->all();
-        $result = $item
-            ->fill($data)
-            ->save();
+        if(empty($data['slug'])) {
+            $data['slug'] = Support\Str::slug($data['title']);
+        }
+        $result = $item->update($data);
+//        $result = $item
+//            ->fill($data)
+//            ->save();
         if ($result) {
             return redirect()
                 ->route('blog.admin.categories.edit', $id)
