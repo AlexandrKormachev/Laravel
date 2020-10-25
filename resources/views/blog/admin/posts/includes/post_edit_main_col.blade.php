@@ -81,7 +81,7 @@
                         <div class="form-check">
                             <input name="is_published" type="hidden" value="0">
                             <input name="is_published" type="checkbox" class="form-check-input"
-                            value="{{ $item->is_published }}"
+                                   value="1"
                             @if($item->is_published)
                                 checked="checked"
                                 @endif
@@ -95,23 +95,7 @@
             </div>
         </div>
 
-        @if($item->exists)
-            <br>
-            <form method="POST" action="{{ route('blog.admin.posts.destroy', $item->id) }}">
-                @method('DELETE')
-                @csrf
-                <div class="justify-content-center">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body align-items-center">
-                                <button  type="submit" class="btn badge-danger">Удалить</button>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
-            </form>
-        @endif
 
 
 

@@ -57,9 +57,6 @@ class CategoryController extends BaseController
     public function store(BlogCategoryCreateRequest $request)
     {
         $data = $request->input();
-        if (empty($data['slug'])) {
-            $data['slug'] = Support\Str::slug($data['title']);
-        }
         $item = new BlogCategory($data);
         $item->save();
         if ($item instanceof BlogCategory) {
@@ -84,8 +81,6 @@ class CategoryController extends BaseController
             abort(404);
         }
         $categoryList = $categoryRepository->getForComboBox();
-//        $item = BlogCategory::findOrFail($id);
-//        $categoryList = BlogCategory::all();
 
         return view('blog.admin.categories.edit',
             compact('item', 'categoryList'));
@@ -108,9 +103,7 @@ class CategoryController extends BaseController
                 ->withInput();
         }
         $data = $request->all();
-        if(empty($data['slug'])) {
-            $data['slug'] = Support\Str::slug($data['title']);
-        }
+
         $result = $item->update($data);
 
         if ($result) {

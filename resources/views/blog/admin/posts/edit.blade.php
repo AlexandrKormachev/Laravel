@@ -10,7 +10,7 @@
             <form method="POST" action="{{ route('blog.admin.posts.update', $item->id) }}">
                 @method('PATCH')
         @else
-            <form method="POST" action="{{ route('blog.admin.posts.store')}}">
+            <form method="POST" action="{{ route('blog.admin.posts.store') }}">
         @endif
                 @csrf
                 @php /** @var \Illuminate\Support\ViewErrorBag $errors */ @endphp
@@ -25,6 +25,23 @@
                 </div>
 
             </form>
+                    @if($item->exists)
+                        <br>
+                        <form method="POST" action="{{ route('blog.admin.posts.destroy', $item->id) }}">
+                            @method('DELETE')
+                            @csrf
+                            <div class="justify-content-center">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body align-items-center">
+                                            <button  type="submit" class="btn badge-danger">Удалить</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+        @endif
     </div>
 
 @endsection
