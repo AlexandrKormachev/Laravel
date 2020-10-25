@@ -35,11 +35,17 @@ class BlogPostRepository extends CoreRepository
             ->select($columns)
             ->with(['category' => function ($query) {
                 $query->select(['id', 'title']);
-                },
+               },
                 'user:id,name'
             ])
             ->orderBy('id', 'DESC')
             ->paginate(25);
+
         return $result;
+    }
+
+    public function getEdit($id)
+    {
+        return $this->startConditions()->find($id);
     }
 }
