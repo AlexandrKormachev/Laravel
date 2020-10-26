@@ -15,6 +15,9 @@ use function Webmozart\Assert\Tests\StaticAnalysis\email;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 use  App\Repositories\BlogCategoryRepository;
 
+/**
+ *  Комментарий в новой ветке post_update в контроллере category
+ */
 class CategoryController extends BaseController
 {
     private $blogCategoryRepository;
