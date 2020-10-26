@@ -15,6 +15,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * Комментарий в новой ветке post_update в контроллере post
+ */
+
+
 class PostController extends BaseController
 {
     private $blogPostRepository;
