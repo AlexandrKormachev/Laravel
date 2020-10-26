@@ -21,6 +21,9 @@ use Illuminate\Support\Str;
 /**
  * 2 Комментарий в новой ветке post_update в контроллере post
  */
+/**
+ * 3 Комментарий в новой ветке post_update в контроллере post
+ */
 
 
 class PostController extends BaseController
