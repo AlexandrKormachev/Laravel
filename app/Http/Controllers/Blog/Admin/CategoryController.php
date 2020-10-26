@@ -6,6 +6,7 @@ use Alpha\B;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
+use App\Jobs\BlogPostAfterCreateJob;
 use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;

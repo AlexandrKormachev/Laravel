@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Blog\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogPostCreateRequest;
 use App\Http\Requests\BlogPostUpdateRequest;
+use App\Jobs\BlogPostAfterCreateJob;
+use App\Jobs\BlogPostAfterDeleteJob;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Repositories\BlogCategoryRepository;
@@ -72,6 +74,7 @@ class PostController extends BaseController
         $item = (new BlogPost())->create($data);
 
         if($item) {
+            $this->dispatch(new BlogPostAfterCreateJob($item));
             return redirect()->route('blog.admin.posts.edit', $item->id)
                 ->with(['success' => 'Успешно сохранено']);
         } else {
@@ -144,6 +147,7 @@ class PostController extends BaseController
      */
     public function destroy($id)
     {
+        BlogPostAfterDeleteJob::dispatch($id)->delay(1);
         $result = BlogPost::destroy($id);
         if($result) {
             return redirect()->route('blog.admin.posts.index')

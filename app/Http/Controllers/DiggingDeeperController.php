@@ -17,13 +17,13 @@ class DiggingDeeperController extends Controller
     public function collections()
     {
         $eloquentCollection = BlogPost::withoutTrashed()->get();
-//        dd(__METHOD__, $eloquentCollection, $eloquentCollection->toArray());
-        $collection = collect($eloquentCollection->toArray());
+        dd(__METHOD__, $eloquentCollection, $eloquentCollection->toArray());
+//        $collection = collect($eloquentCollection->toArray());
 //        $newCollection[] = $collection->map(function ($item) {
 //            $item['id'] = $item['category_id']."rrrr"; return $item;
 //        })->values();
 //        $newCollection[] = $collection->filter(function ($item) {$item["created_at"]->isFriday(); $result = $uslovie && $uslovie2 return $result;})->values();
-        dd($newCollection);
+//        dd($newCollection);
     }
 
 
