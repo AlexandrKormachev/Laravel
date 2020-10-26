@@ -20,6 +20,11 @@ Route::get('/', function () {
 Route::group(['namespace' => 'App\Http\Controllers\Blog', 'prefix' => 'blog'], function() {
     Route::resource('posts', 'PostController')->names('blog.posts');
 });
+
+Route::group(['namespace' => 'App\Http\Controllers', 'prefix' => 'digging_deeper'], function() {
+    Route::get('collections', [App\Http\Controllers\DiggingDeeperController::class, 'collections'])->name('digging_deeper.collections');
+});
+
 Route::resource('rest', 'App\Http\Controllers\RestTestController')->names('restTest');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

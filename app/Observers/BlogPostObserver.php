@@ -49,6 +49,10 @@ class BlogPostObserver
         //
     }
 
+    public function deleting(BlogPost $blogPost)
+    {
+//        return false;
+    }
     /**
      * Handle the blog post "deleted" event.
      *

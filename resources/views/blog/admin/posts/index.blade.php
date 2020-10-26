@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+        @include('blog.admin.posts.includes.result_messages')
         <div class="row justify-content-center">
 {{--            <nav class="navbar navbar-toggleable-md navbar-light bg-faded">--}}
 {{--                <a class="btn btn-primary" href="{{route('blog.admin.posts.create')}}">Написать</a>--}}
@@ -18,6 +19,7 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         @foreach($paginator as $post)
                             @php /** @var \App\Models\BlogPost  $post */@endphp
                                 <tr @if(!$post->is_published) style = "background-color: #ccc;" @endif>
